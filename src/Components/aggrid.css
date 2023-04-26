@@ -1,0 +1,9 @@
+.ag-header-group-cell-label, .ag-header-cell-label {
+    display: flex;
+    flex: 1 1 auto;
+    overflow: hidden;
+    align-items: center;
+    justify-content: center;
+    text-overflow: ellipsis;
+    align-self: stretch;
+}
