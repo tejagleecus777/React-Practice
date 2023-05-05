@@ -1,5 +1,4 @@
-import React, { useCallback, useMemo, useRef, useState } from 'react'
-
+import React, { useCallback, useRef } from 'react'
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
@@ -15,7 +14,7 @@ const AgGrid = ({columnDefs,rowData}) => {
   }, []);
 
   return (
-    <div className='container mt-3'>
+    <div className='container-fluid py-3'>
       <div className="ag-theme-alpine" style={{height: 400}}>
            <AgGridReact
               ref={AGGridReferenceValue}

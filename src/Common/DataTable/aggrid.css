@@ -7,3 +7,6 @@
     text-overflow: ellipsis;
     align-self: stretch;
 }
+.ag-header-cell-text,.ag-cell-value{
+    font-size: 11px;
+}

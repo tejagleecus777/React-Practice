@@ -1,10 +1,28 @@
+/* External imports */
 import React, { useEffect, useState } from "react";
-import AgGrid from "./AgGrid";
+import { Col, Row } from "react-bootstrap";
+import Plot from "react-plotly.js";
 import axios from "axios";
 
-const Data2 = () => {
-  // dataTable Column
-  const [columnDefs, setColumnDefs] = useState([
+/* Internal imports */
+import KpiCards from "../../Common/KpiCards";
+import "../../Assets/CSS/index.css";
+import AgGrid from "../../Common/DataTable/AgGrid";
+import DropDown from "../../Common/DropDown";
+
+const Page1 = () => {
+  /*States and variables declarations */
+  let kpiValues = [
+    { cardName: "Medium KPI Cards", cardValue: 345, activeState: "none" },
+    { cardName: "Medium KPI Cards", cardValue: 355, activeState: "none" },
+    { cardName: "Medium KPI Cards", cardValue: 145, activeState: "none" },
+    { cardName: "Medium KPI Cards", cardValue: 345, activeState: "none" },
+    { cardName: "Medium KPI Cards", cardValue: 345, activeState: "none" },
+    { cardName: "Medium KPI Cards", cardValue: 355, activeState: "none" },
+    { cardName: "Medium KPI Cards", cardValue: 345, activeState: "none" },
+    { cardName: "Medium KPI Cards", cardValue: 355, activeState: "none" },
+  ];
+  const [columnDefs] = useState([
     {
       field: "mrn",
       headerName: "MRN",
@@ -51,53 +69,13 @@ const Data2 = () => {
       minWidth: 155,
       maxWidth: 155,
     },
-    {
-      field: "visit_date",
-      headerName: "VISIT DATE",
-      checked: true,
-      suppressMovable: true,
-      filter: "agDateColumnFilter",
-      minWidth: 125,
-      maxWidth: 125,
-    },
-    {
-      field: "skill_type",
-      headerName: "SKILL TYPE",
-      filter: "agSetColumnFilter",
-      checked: true,
-      suppressMovable: true,
-      minWidth: 120,
-      maxWidth: 120,
-    },
-    {
-      field: "billable",
-      headerName: "BILLABLE",
-      checked: true,
-      suppressMovable: true,
-      minWidth: 131,
-      maxWidth: 131,
-    },
-    {
-      field: "is_missed_visit",
-      headerName: "IS MISSED VISIT",
-      checked: true,
-      suppressMovable: true,
-      minWidth: 150,
-      maxWidth: 150,
-    },
   ]);
+  const [rowData, setRowData] = useState([]);
 
-  const [rowData, setRowData] = useState([
-    { make: "Toyota", model: "Celica", price: 35000, struct: "jsdf" },
-    { make: "Ford", model: "Mondeo", price: 32000 },
-    { make: "Porsche", model: "Boxster", price: 72000 },
-    { make: "Toyota", model: "Celica", price: 35000 },
-    { make: "Ford", model: "Mondeo", price: 32000 },
-    { make: "Porsche", model: "Boxster", price: 72000 },
-    { make: "Toyota", model: "Celica", price: 35000 },
-    { make: "Ford", model: "Mondeo", price: 32000 },
-    { make: "Porsche", model: "Boxster", price: 72000 },
-  ]);
+  /* Functions Declaration */
+  const clickCard = () => {
+    alert("You have clicked on a card");
+  };
 
   useEffect(() => {
     axios
@@ -125,26 +103,8 @@ const Data2 = () => {
             schedule_date:
               result.SCHEDULE_DATE &&
               result.SCHEDULE_DATE !== "nan" &&
-              result.SCHEDULE_DATE != "None"
+              result.SCHEDULE_DATE !== "None"
                 ? result.SCHEDULE_DATE
-                : "--",
-            visit_date:
-              result.VISIT_DATE &&
-              result.VISIT_DATE !== "nan" &&
-              result.VISIT_DATE != "None"
-                ? result.VISIT_DATE
-                : "--",
-            skill_type:
-              result.SKILL_TYPE && result.SKILL_TYPE !== "nan"
-                ? result.SKILL_TYPE
-                : "--",
-            billable:
-              result.BILLABLE && result.BILLABLE !== "nan"
-                ? result.BILLABLE
-                : "--",
-            is_missed_visit:
-              result.IS_MISSED_VISIT && result.IS_MISSED_VISIT !== "nan"
-                ? result.IS_MISSED_VISIT
                 : "--",
           });
           if (Number(i + 1) === Number(results.length)) {
@@ -155,10 +115,45 @@ const Data2 = () => {
   }, []);
 
   return (
-    <div>
-      <AgGrid columnDefs={columnDefs} rowData={rowData} />
+    <div className="container-fluid pt-3">
+      <DropDown
+        dropDownHeader={"Select Page"}
+        dropDownList={["Page2", "Page3"]}
+      />
+
+      <Row className="first-row">
+        {/* Graph Section */}
+        <Col md={8}>
+          <Plot
+            data={[
+              {
+                type: "bar",
+                x: [30, 14, 23, 17, 31, 29],
+                y: ["user1", "user2", "user3", "user4", "user5", "user6"],
+                orientation: "h",
+              },
+            ]}
+            layout={{ title: "Graph Title", autosize: true, margin: 0 }}
+          />
+        </Col>
+
+        {/* KPIs Section */}
+        <Col md={4}>
+          <KpiCards
+            totalCards={kpiValues}
+            cardsForRow={2}
+            clickCard={clickCard}
+          />
+        </Col>
+      </Row>
+
+      {/* Data Table Section */}
+      <div>
+        <AgGrid columnDefs={columnDefs} rowData={rowData} />
+      </div>
+      
     </div>
   );
 };
 
-export default Data2;
+export default Page1;

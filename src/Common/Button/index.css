@@ -1,0 +1,13 @@
+.btn-check:focus + .btn-outline-secondary, 
+.btn-outline-secondary:focus, button:focus:not(:focus-visible){
+  box-shadow: none;
+}
+.action-crud{
+    background-color: transparent!important;
+    font-size: 11px!important;
+    font-weight: 700;
+    padding: 5px 8px 5px 8px!important;
+    margin-top: 5px!important;
+    margin-bottom: 5px!important;
+    border: none!important;
+  }
